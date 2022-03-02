@@ -1,5 +1,7 @@
 package com.desafio.bootcamp.clients.dto;
 
+import com.desafio.bootcamp.clients.entities.Clients;
+
 import java.time.Instant;
 
 public class ClientsDTO {
@@ -19,6 +21,15 @@ public class ClientsDTO {
         this.income = income;
         this.birthDate = birthDate;
         this.children = children;
+    }
+
+    public ClientsDTO(Clients clientsEntity) {
+        this.id = clientsEntity.getId();
+        this.name = clientsEntity.getName();
+        this.cpf = clientsEntity.getCpf();
+        this.income = clientsEntity.getIncome();
+        this.birthDate = clientsEntity.getBirthDate();
+        this.children = clientsEntity.getChildren();
     }
 
     public Long getId() {

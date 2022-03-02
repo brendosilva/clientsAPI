@@ -10,6 +10,17 @@ public class ClientsDTO {
     private Instant birthDate;
     private Integer children;
 
+    public ClientsDTO() {
+    }
+
+    public ClientsDTO(String name, String cpf, Double income, Instant birthDate, Integer children) {
+        this.name = name;
+        this.cpf = cpf;
+        this.income = income;
+        this.birthDate = birthDate;
+        this.children = children;
+    }
+
     public Long getId() {
         return id;
     }

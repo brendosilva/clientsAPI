@@ -38,6 +38,10 @@ public class Clients {
         this.children = children;
     }
 
+
+
+
+
     public Long getId() {
         return id;
     }
@@ -80,5 +84,63 @@ public class Clients {
 
     public void setChildren(Integer children) {
         this.children = children;
+    }
+
+
+    public static final class ClientsBuilder {
+        private Long id;
+        private String name;
+        private String cpf;
+        private Double income;
+        private Instant birthDate;
+        private Integer children;
+
+        private ClientsBuilder() {
+        }
+
+        public static ClientsBuilder aClients() {
+            return new ClientsBuilder();
+        }
+
+        public ClientsBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public ClientsBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public ClientsBuilder withCpf(String cpf) {
+            this.cpf = cpf;
+            return this;
+        }
+
+        public ClientsBuilder withIncome(Double income) {
+            this.income = income;
+            return this;
+        }
+
+        public ClientsBuilder withBirthDate(Instant birthDate) {
+            this.birthDate = birthDate;
+            return this;
+        }
+
+        public ClientsBuilder withChildren(Integer children) {
+            this.children = children;
+            return this;
+        }
+
+        public Clients build() {
+            Clients clients = new Clients();
+            clients.setName(name);
+            clients.setCpf(cpf);
+            clients.setIncome(income);
+            clients.setBirthDate(birthDate);
+            clients.setChildren(children);
+            clients.id = this.id;
+            return clients;
+        }
     }
 }

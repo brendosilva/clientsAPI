@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 
@@ -18,6 +19,16 @@ public class ClientsService {
 
     @Autowired
     ClientsRepository clientsRepository;
+
+    public Clients toEntitie(ClientsDTO clientsDTO) {
+        return Clients.ClientsBuilder.aClients()
+                .withName(clientsDTO.getName())
+                .withCpf(clientsDTO.getCpf())
+                .withIncome(clientsDTO.getIncome())
+                .withBirthDate(clientsDTO.getBirthDate())
+                .withChildren(clientsDTO.getChildren())
+                .build();
+    }
 
 
     @Transactional(readOnly = true)
@@ -32,5 +43,31 @@ public class ClientsService {
         Clients clientsEntity = clientsOptional.orElseThrow(() -> new ControllerNotFoundException("Client not exists"));
 
         return new ClientsDTO(clientsEntity);
+    }
+
+    @Transactional
+    public ClientsDTO save(ClientsDTO clientsDTO) {
+        Clients clients;
+        clients = toEntitie(clientsDTO);
+        clients = clientsRepository.save(clients);
+
+        return new ClientsDTO(clients);
+    }
+
+    @Transactional
+    public ClientsDTO update(Long id, ClientsDTO clientsDTO){
+        try {
+            Clients clientsEntitie = clientsRepository.getOne(id);
+
+            clientsEntitie.setName(clientsDTO.getName());
+            clientsEntitie.setCpf(clientsDTO.getCpf());
+            clientsEntitie.setIncome(clientsDTO.getIncome());
+            clientsEntitie.setBirthDate(clientsDTO.getBirthDate());
+            clientsEntitie.setChildren(clientsDTO.getChildren());
+            clientsEntitie = clientsRepository.save(clientsEntitie);
+            return new ClientsDTO(clientsEntitie);
+        } catch (EntityNotFoundException e) {
+            throw new ControllerNotFoundException("id not found "+id);
+        }
     }
 }
